@@ -1,89 +1,9 @@
 import streamlit as st
+import json
 
-# Quiz data structured by levels
-quiz_data = {
-    "Level 1 - Basic Understanding": {
-        "questions": {
-            "What is the main purpose of an O-ring?": [
-                "To seal against leakage of gases or liquids between two surfaces",
-                "To serve as a decorative item",
-                "To conduct electricity",
-                "To generate heat"
-            ],
-            "Which of the following is a common material used to make O-rings?": [
-                "Rubber or elastomers",
-                "Steel",
-                "Wood",
-                "Glass"
-            ],
-            "What shape is an O-ring?": [
-                "Circular with a round cross-section",
-                "Square",
-                "Hexagonal",
-                "Triangular"
-            ]
-        },
-        "correct_answers": {
-            "What is the main purpose of an O-ring?": "To seal against leakage of gases or liquids between two surfaces",
-            "Which of the following is a common material used to make O-rings?": "Rubber or elastomers",
-            "What shape is an O-ring?": "Circular with a round cross-section"
-        }
-    },
-    "Level 2 - Intermediate": {
-        "questions": {
-            "Which industry standard specifies the dimensions of O-rings?": [
-                "ISO 3601",
-                "ISO 9001",
-                "ANSI B16",
-                "DIN 912"
-            ],
-            "What is a common failure mode for O-rings?": [
-                "Extrusion and nibbling",
-                "Oxidation",
-                "Corrosion",
-                "Fatigue cracking"
-            ],
-            "What is the most critical factor for ensuring a proper O-ring seal?": [
-                "Proper compression ratio",
-                "Exact color matching",
-                "Surface finish of O-ring",
-                "Roundness of O-ring"
-            ]
-        },
-        "correct_answers": {
-            "Which industry standard specifies the dimensions of O-rings?": "ISO 3601",
-            "What is a common failure mode for O-rings?": "Extrusion and nibbling",
-            "What is the most critical factor for ensuring a proper O-ring seal?": "Proper compression ratio"
-        }
-    },
-    "Level 3 - Advanced Engineering": {
-        "questions": {
-            "Which type of O-ring material is best suited for high-pressure hydraulic applications?": [
-                "Fluorocarbon (Viton)",
-                "Silicone",
-                "Neoprene",
-                "Ethylene Propylene (EPDM)"
-            ],
-            "What is the typical hardness range (measured in Shore A) for standard O-rings?": [
-                "70 - 90 Shore A",
-                "30 - 50 Shore A",
-                "10 - 20 Shore A",
-                "100 - 120 Shore A"
-            ],
-            "What happens if an O-ring is compressed beyond its recommended limit?": [
-                "It can extrude and fail under pressure",
-                "It improves the sealing capability",
-                "It becomes more durable",
-                "Nothing significant happens"
-            ]
-        },
-        "correct_answers": {
-            "Which type of O-ring material is best suited for high-pressure hydraulic applications?": "Fluorocarbon (Viton)",
-            "What is the typical hardness range (measured in Shore A) for standard O-rings?": "70 - 90 Shore A",
-            "What happens if an O-ring is compressed beyond its recommended limit?": "It can extrude and fail under pressure"
-        }
-    }
-}
+# Load quiz data from the JSON file
+with open('quiz_data.json', 'r') as f:
+    quiz_data = json.load(f)
 
 # Initialize session state variables if they don't exist
 if 'current_level' not in st.session_state:
@@ -156,6 +76,4 @@ if st.session_state.level_complete:
     else:
         st.error("You did not pass this level. Review the answers and try again.")
 
-# Display final score if all levels are complete
-if current_level == "Level 3 - Advanced Engineering" and not next_level:
-    st.subheader(f"Your total score: {st.session_state.score} / 9")
+# Display final
