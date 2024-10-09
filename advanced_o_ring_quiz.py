@@ -62,24 +62,28 @@ if st.button("Submit Answers"):
 if st.session_state.level_complete:
     if st.session_state.level_passed:
         st.success(f"Congratulations! You passed {current_level}.")
+        
+        # Determine the next level, if available
         next_level = {
             "Level 1 - Basic Understanding": "Level 2 - Intermediate",
             "Level 2 - Intermediate": "Level 3 - Advanced Engineering",
-            "Level 3 - Advanced Engineering": None
-        }[current_level]
+        }.get(current_level, None)
 
-        # Display option to go to the next level if there is one
+        # If there is a next level, show the proceed checkbox
         if next_level:
-            # Show a checkbox for proceeding to the next level
             if st.checkbox("Proceed to Next Level"):
                 # Update session state for the next level
                 st.session_state.current_level = next_level
                 st.session_state.level_complete = False
                 st.session_state.answers = {}  # Reset answers for the next level
                 st.session_state.level_passed = False
+                st.experimental_set_query_params()  # Trigger a state refresh
+        else:
+            st.balloons()
+            st.subheader("You've completed all levels! Well done!")
     else:
         st.error("You did not pass this level. Review the answers and try again.")
 
-# Display final score if all levels are complete
-if current_level == "Level 3 - Advanced Engineering" and not next_level:
+# Display final score if all levels are complete and no more next level is defined
+if current_level == "Level 3 - Advanced Engineering":
     st.subheader(f"Your total score: {st.session_state.score} / 9")
