@@ -110,9 +110,12 @@ for question, options in questions.items():
     if question not in st.session_state.answers:
         st.session_state.answers[question] = None
 
-    # Display radio button with appropriate key
+    # Set a default index of -1 if no answer has been selected
+    current_index = options.index(st.session_state.answers[question]) if st.session_state.answers[question] in options else 0
+
+    # Display radio button with appropriate key and valid index
     st.session_state.answers[question] = st.radio(
-        question, options, index=options.index(st.session_state.answers[question]) if st.session_state.answers[question] else -1
+        question, options, index=current_index, key=question
     )
 
 # Submit button
