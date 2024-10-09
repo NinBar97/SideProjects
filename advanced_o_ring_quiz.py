@@ -11,6 +11,8 @@ if 'current_level' not in st.session_state:
     st.session_state.score = 0
     st.session_state.level_complete = False
     st.session_state.answers = {}  # Track user's answers
+    st.session_state.level_passed = False  # Track if the current level is passed
+    st.session_state.proceed_to_next = False  # Track if the user clicked to proceed
 
 # Set current level
 current_level = st.session_state.current_level
@@ -30,7 +32,7 @@ for question, options in questions.items():
     if question not in st.session_state.answers:
         st.session_state.answers[question] = None
 
-    # Set a default index of -1 if no answer has been selected
+    # Set a default index of 0 if no answer has been selected
     current_index = options.index(st.session_state.answers[question]) if st.session_state.answers[question] in options else 0
 
     # Display radio button with appropriate key and valid index
@@ -53,9 +55,12 @@ if st.button("Submit Answers"):
     st.session_state.score += level_score
     st.session_state.level_complete = True
 
+    # Check if the user passed this level
+    st.session_state.level_passed = level_score >= len(questions) // 2
+
 # Display navigation options based on level score
 if st.session_state.level_complete:
-    if level_score >= len(questions) // 2:  # Minimum pass criteria: 50% correct answers
+    if st.session_state.level_passed:
         st.success(f"Congratulations! You passed {current_level}.")
         next_level = {
             "Level 1 - Basic Understanding": "Level 2 - Intermediate",
@@ -63,17 +68,18 @@ if st.session_state.level_complete:
             "Level 3 - Advanced Engineering": None
         }[current_level]
 
-        # Display option to go to the next level
+        # Display option to go to the next level if there is one
         if next_level:
-            if st.button("Proceed to Next Level"):
+            # Show a checkbox for proceeding to the next level
+            if st.checkbox("Proceed to Next Level"):
+                # Update session state for the next level
                 st.session_state.current_level = next_level
                 st.session_state.level_complete = False
                 st.session_state.answers = {}  # Reset answers for the next level
-                st.experimental_rerun()  # Proper rerun to refresh state
-        else:
-            st.balloons()
-            st.subheader("You've completed all levels! Well done!")
+                st.session_state.level_passed = False
     else:
         st.error("You did not pass this level. Review the answers and try again.")
 
-# Display final
+# Display final score if all levels are complete
+if current_level == "Level 3 - Advanced Engineering" and not next_level:
+    st.subheader(f"Your total score: {st.session_state.score} / 9")
