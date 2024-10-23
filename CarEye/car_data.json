@@ -1,0 +1,25 @@
+{
+  "ABC123": {
+    "brand": "Toyota",
+    "model": "Camry",
+    "year": 2020,
+    "features": {
+      "front": {
+        "Headlights": "LED headlights with auto high beam",
+        "Grille": "Chrome grille"
+      },
+      "side": {
+        "Doors": "Automatic sliding doors",
+        "Mirrors": "Heated side mirrors"
+      },
+      "rear": {
+        "Tail Lights": "LED tail lights",
+        "Trunk": "Power liftgate"
+      },
+      "interior": {
+        "Seats": "Leather seats with heating",
+        "Dashboard": "Digital dashboard"
+      }
+    }
+  }
+}
