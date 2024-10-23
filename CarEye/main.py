@@ -7,7 +7,7 @@ st.title("Car Feature Explorer")
 reg_number = st.text_input("Enter Car Registration Number")
 
 # Load car data from JSON file
-with open('car_data.json', 'r') as f:
+with open('./CarEye/car_data.json', 'r') as f:
     car_data = json.load(f)
 
 if reg_number:
@@ -27,10 +27,10 @@ if reg_number:
 
         # Map views to image files
         view_images = {
-            "Front View": "front_view.png",
-            "Side View": "side_view.png",
-            "Rear View": "rear_view.png",
-            "Interior View": "interior_view.png"
+            "Front View": "./CarEye/front_view.png",
+            "Side View": "./CarEye/side_view.png",
+            "Rear View": "./CarEye/rear_view.png",
+            "Interior View": "./CarEye/interior_view.png"
         }
 
         # Display the selected image
