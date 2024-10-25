@@ -3,22 +3,69 @@
     "brand": "Toyota",
     "model": "Camry",
     "year": 2020,
-    "features": {
-      "frontview": {
-        "LED Headlights": "Bright and energy-efficient lights that improve night-time visibility and consume less power.",
-        "Chrome Grille": "A stylish grille that enhances the car's appearance and allows for better airflow to the engine."
+    "packages": {
+      "LE": {
+        "description": "The LE is the base model offering a balance of comfort and efficiency.",
+        "features": {
+          "frontview": {
+            "Bi-LED Combination Headlights": "Bright headlights with automatic on/off feature.",
+            "Black Front Grille": "Stylish black grille enhancing the car's front profile."
+          },
+          "sideview": {
+            "16-inch Steel Wheels": "Durable wheels with wheel covers.",
+            "Color-Keyed Heated Power Outside Mirrors": "Mirrors that adjust and defrost for optimal visibility."
+          },
+          "rearview": {
+            "LED Taillights": "Energy-efficient taillights for improved visibility.",
+            "Single Exhaust": "Standard exhaust system."
+          },
+          "interiorview": {
+            "Fabric-Trimmed Seats": "Comfortable seating with adjustable driver's seat.",
+            "Entune 3.0 Audio": "Basic audio system with 7-inch touchscreen."
+          }
+        }
       },
-      "sideview": {
-        "Automatic Sliding Doors": "Convenient doors that slide open automatically for easy entry and exit.",
-        "Heated Side Mirrors": "Mirrors that heat up to prevent fogging and icing in cold weather."
+      "SE": {
+        "description": "The SE adds sporty styling and enhanced features.",
+        "features": {
+          "frontview": {
+            "Sport Mesh Front Grille": "Aggressive grille design for a sporty look.",
+            "LED Daytime Running Lights": "Stylish and functional daytime lights."
+          },
+          "sideview": {
+            "18-inch Black Machined-Finish Alloy Wheels": "Larger wheels with a sleek design.",
+            "Color-Keyed Rear Spoiler": "Adds aerodynamic styling to the car's profile."
+          },
+          "rearview": {
+            "Dual Chrome-Tipped Exhaust": "Enhanced exhaust for a sporty appearance.",
+            "LED Combination Taillights": "Distinctive taillight design."
+          },
+          "interiorview": {
+            "SofTex®-Trimmed Seats": "Synthetic leather seats with sport fabric inserts.",
+            "Leather-Trimmed Steering Wheel": "Adds comfort and luxury feel."
+          }
+        }
       },
-      "rearview": {
-        "LED Tail Lights": "Tail lights that provide better visibility to drivers behind you, enhancing safety.",
-        "Power Liftgate": "A trunk door that opens and closes automatically with the push of a button."
-      },
-      "interiorview": {
-        "Leather Seats with Heating": "Comfortable seats upholstered in leather, featuring heating elements for warmth.",
-        "Digital Dashboard": "An advanced dashboard displaying vital car information digitally for easy readability."
+      "XSE": {
+        "description": "The XSE offers premium features and sporty performance.",
+        "features": {
+          "frontview": {
+            "LED Headlights with Smoke Tint": "High-quality headlights with unique styling.",
+            "Gloss-Black Front Grille": "Premium grille with gloss finish."
+          },
+          "sideview": {
+            "19-inch Black Machined-Finish Alloy Wheels": "Largest wheels for enhanced performance.",
+            "Panoramic Glass Roof": "Expansive roof for an open-air feel."
+          },
+          "rearview": {
+            "Quad Chrome Exhaust Tips": "Distinctive exhaust design for a performance look.",
+            "Gloss-Black Rear Spoiler": "Enhances aerodynamics and style."
+          },
+          "interiorview": {
+            "Leather-Trimmed Seats": "Premium leather seating surfaces.",
+            "JBL® Audio System": "High-quality sound system with 9 speakers."
+          }
+        }
       }
     }
   }

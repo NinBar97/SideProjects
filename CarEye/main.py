@@ -1,10 +1,13 @@
 import streamlit as st
 import json
 import os
+import pandas as pd
 
 def reset_app():
     # Clear specific session state variables
     st.session_state['reg_number'] = ''
+    st.session_state['selected_package'] = ''
+    st.session_state['compare_packages'] = []
 
 def load_car_data(json_path):
     # Load car data from JSON file
@@ -19,7 +22,20 @@ def load_car_data(json_path):
         st.error(f"An error occurred while loading car data: {e}")
         st.stop()
 
-def display_car_view(view_name, car_info):
+def display_car_info(car_info):
+    st.success(f"Details for {st.session_state['reg_number'].upper()}:")
+    
+    # Display brand, model, and year in the same row
+    col1, col2, col3 = st.columns(3)
+    col1.write(f"**Brand:** {car_info['brand']}")
+    col2.write(f"**Model:** {car_info['model']}")
+    col3.write(f"**Year:** {car_info['year']}")
+
+def display_package_info(package_name, package_info):
+    st.header(f"Package: {package_name}")
+    st.write(package_info['description'])
+
+def display_car_view(view_name, features):
     # Map view names to image files
     image_files = {
         "Front View": "./CarEye/front_view.png",
@@ -31,18 +47,15 @@ def display_car_view(view_name, car_info):
     # Display Image
     image_path = image_files.get(view_name)
     if image_path and os.path.exists(image_path):
-        st.image(image_path, width=1000)
+        st.image(image_path, width=800)
     else:
         st.warning(f"No image available for {view_name}.")
 
-    # Map view names to keys in features
-    view_key = view_name.lower().replace(" ", "")
-    features = car_info['features'].get(view_key)
+    # Display Features
     if features:
         display_features(features)
     else:
         st.info(f"No features available for {view_name}.")
-
 
 def display_features(features):
     st.subheader("Explore Features")
@@ -50,22 +63,46 @@ def display_features(features):
         with st.expander(feature_name):
             st.write(feature_description)
 
-def display_car_info(car_info):
-    st.success(f"Details for {st.session_state['reg_number'].upper()}:")
-    
-    # Display brand, model, and year in the same row
-    col1, col2, col3 = st.columns(3)
-    col1.write(f"**Brand:** {car_info['brand']}")
-    col2.write(f"**Model:** {car_info['model']}")
-    col3.write(f"**Year:** {car_info['year']}")
+def compare_features(packages_info):
+    st.subheader("Feature Comparison")
+    view_names = ["Front View", "Side View", "Rear View", "Interior View"]
+    for view_name in view_names:
+        st.write(f"### {view_name}")
+        view_key = view_name.lower().replace(" ", "")
+        
+        # Collect features for each package
+        data = {}
+        all_features = set()
+        for pkg_name, pkg_info in packages_info.items():
+            features = pkg_info['features'].get(view_key, {})
+            data[pkg_name] = features
+            all_features.update(features.keys())
 
-def display_car_image(selected_view, view_images):
-    # Display the selected image
-    image_path = view_images[selected_view]
-    if os.path.exists(image_path):
-        st.image(image_path, caption=selected_view, use_column_width=True)
-    else:
-        st.warning(f"Image for {selected_view} not available.")
+        # Convert the set to a sorted list
+        all_features = sorted(list(all_features))
+        
+        # Create a DataFrame for comparison
+        comparison_table = pd.DataFrame(index=all_features)
+        for pkg_name, features in data.items():
+            # Map features to the DataFrame
+            comparison_table[pkg_name] = comparison_table.index.map(features).fillna("-")
+
+        # Function to highlight differences
+        def highlight_differences(data, color='lightgray'):
+            attr = f'background-color: {color}'
+            # Compare each row
+            is_different = data.apply(lambda x: x != x[0], axis=1)
+            # Apply styles
+            style_df = pd.DataFrame('', index=data.index, columns=data.columns)
+            style_df[is_different] = attr
+            return style_df
+        
+        # Apply the styling
+        comparison_table_styled = comparison_table.style.apply(highlight_differences, axis=None)
+        
+        # Display the table
+        st.table(comparison_table_styled)
+        st.markdown("---")
 
 def main():
     st.set_page_config(page_title="Car Feature Explorer", page_icon="🚗", layout="wide", initial_sidebar_state="expanded")
@@ -80,6 +117,10 @@ def main():
     # Initialize session state variables if not already set
     if 'reg_number' not in st.session_state:
         st.session_state['reg_number'] = ''
+    if 'selected_package' not in st.session_state:
+        st.session_state['selected_package'] = ''
+    if 'compare_packages' not in st.session_state:
+        st.session_state['compare_packages'] = []
     
     # Move inputs to sidebar
     st.sidebar.title("Search for a Car")
@@ -96,12 +137,38 @@ def main():
         if car_info:
             display_car_info(car_info)
             
-            # Create tabs for different views
-            tabs = st.tabs(["Front View", "Side View", "Rear View", "Interior View"])
-            view_names = ["Front View", "Side View", "Rear View", "Interior View"]
-            for tab, view_name in zip(tabs, view_names):
-                with tab:
-                    display_car_view(view_name, car_info)
+            # Package Selection
+            packages = list(car_info.get('packages', {}).keys())
+            if packages:
+                st.sidebar.subheader("Select Package")
+                selected_package = st.sidebar.selectbox("Package", packages, key="selected_package")
+                st.sidebar.markdown("---")
+                
+                # Package Comparison
+                st.sidebar.subheader("Compare Packages")
+                compare_packages = st.sidebar.multiselect("Select Packages to Compare", packages, key="compare_packages")
+                
+                # Display Selected Package
+                if selected_package:
+                    package_info = car_info['packages'][selected_package]
+                    display_package_info(selected_package, package_info)
+                    
+                    # Create tabs for different views
+                    tabs = st.tabs(["Front View", "Side View", "Rear View", "Interior View"])
+                    view_names = ["Front View", "Side View", "Rear View", "Interior View"]
+                    for tab, view_name in zip(tabs, view_names):
+                        with tab:
+                            view_key = view_name.lower().replace(" ", "")
+                            features = package_info['features'].get(view_key)
+                            display_car_view(view_name, features)
+                
+                # Display Comparison if more than one package is selected
+                if len(compare_packages) > 1:
+                    st.header("Package Comparison")
+                    compare_packages_info = {pkg: car_info['packages'][pkg] for pkg in compare_packages}
+                    compare_features(compare_packages_info)
+            else:
+                st.info("No packages available for this car.")
         else:
             st.error("Car not found. Please check the registration number.")
     else:
