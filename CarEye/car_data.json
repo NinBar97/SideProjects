@@ -4,21 +4,21 @@
     "model": "Camry",
     "year": 2020,
     "features": {
-      "front": {
-        "Headlights": "LED headlights with auto high beam",
-        "Grille": "Chrome grille"
+      "frontview": {
+        "LED Headlights": "Bright and energy-efficient lights that improve night-time visibility and consume less power.",
+        "Chrome Grille": "A stylish grille that enhances the car's appearance and allows for better airflow to the engine."
       },
-      "side": {
-        "Doors": "Automatic sliding doors",
-        "Mirrors": "Heated side mirrors"
+      "sideview": {
+        "Automatic Sliding Doors": "Convenient doors that slide open automatically for easy entry and exit.",
+        "Heated Side Mirrors": "Mirrors that heat up to prevent fogging and icing in cold weather."
       },
-      "rear": {
-        "Tail Lights": "LED tail lights",
-        "Trunk": "Power liftgate"
+      "rearview": {
+        "LED Tail Lights": "Tail lights that provide better visibility to drivers behind you, enhancing safety.",
+        "Power Liftgate": "A trunk door that opens and closes automatically with the push of a button."
       },
-      "interior": {
-        "Seats": "Leather seats with heating",
-        "Dashboard": "Digital dashboard"
+      "interiorview": {
+        "Leather Seats with Heating": "Comfortable seats upholstered in leather, featuring heating elements for warmth.",
+        "Digital Dashboard": "An advanced dashboard displaying vital car information digitally for easy readability."
       }
     }
   }
