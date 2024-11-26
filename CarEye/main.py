@@ -45,10 +45,10 @@ def display_package_info(package_name, package_info):
 def display_car_view(view_name, features):
     # Map view names to image files
     image_files = {
-        "Front View": os.path.join("Images", "front_view.png"),
-        "Side View": os.path.join("Images", "side_view.png"),
-        "Rear View": os.path.join("Images", "rear_view.png"),
-        "Interior View": os.path.join("Images", "interior_view.png"),
+        "Front View": os.path.join("./CarEye/Images", "front_view.png"),
+        "Side View": os.path.join("./CarEye/Images", "side_view.png"),
+        "Rear View": os.path.join("./CarEye/Images", "rear_view.png"),
+        "Interior View": os.path.join("./CarEye/Images", "interior_view.png"),
     }
 
     # Display Image
